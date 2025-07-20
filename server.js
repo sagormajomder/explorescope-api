@@ -25,6 +25,19 @@ const server = http.createServer((req, res) => {
     const content = JSON.stringify(continentData);
     sendJSONResponse(res, 200, content);
   }
+  // ---> Country Route
+  else if (req.url.startsWith('/api/country') && req.method === 'GET') {
+    const countryName = req.url.split('/').pop();
+    // console.log(countryName);
+
+    const countryData = rawData.filter(
+      data => data.country.toLowerCase() === countryName.toLowerCase()
+    );
+    // console.log(countryData);
+
+    const content = JSON.stringify(countryData);
+    sendJSONResponse(res, 200, content);
+  }
 });
 
 server.listen(PORT, () => console.log(`Server is running at ${PORT}`));
