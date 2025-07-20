@@ -1,12 +1,15 @@
 import http from 'node:http';
 
+import { getDataFromDatabase } from './database/db.js';
 import { sendJSONResponse } from './utils/sendJSONResponse.js';
 
 const PORT = 8000;
+const rawData = await getDataFromDatabase();
 
 const server = http.createServer((req, res) => {
   if (req.url === '/' && req.method === 'GET') {
-    sendJSONResponse(res, 200, 'Hello Server');
+    const content = JSON.stringify(rawData);
+    sendJSONResponse(res, 200, content);
   }
 });
 
