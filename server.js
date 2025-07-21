@@ -9,8 +9,7 @@ const rawData = await getDataFromDatabase();
 const server = http.createServer((req, res) => {
   //---> Root Route
   if (req.url === '/' && req.method === 'GET') {
-    const content = JSON.stringify(rawData);
-    sendJSONResponse(res, 200, content);
+    sendJSONResponse(res, 200, rawData);
   }
   //---> Continent Route
   else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
@@ -22,8 +21,7 @@ const server = http.createServer((req, res) => {
     );
     // console.log(continentData);
 
-    const content = JSON.stringify(continentData);
-    sendJSONResponse(res, 200, content);
+    sendJSONResponse(res, 200, continentData);
   }
   // ---> Country Route
   else if (req.url.startsWith('/api/country') && req.method === 'GET') {
@@ -35,8 +33,7 @@ const server = http.createServer((req, res) => {
     );
     // console.log(countryData);
 
-    const content = JSON.stringify(countryData);
-    sendJSONResponse(res, 200, content);
+    sendJSONResponse(res, 200, countryData);
   }
 });
 
