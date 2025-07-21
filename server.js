@@ -1,16 +1,31 @@
 import http from 'node:http';
 
 import { getDataFromDatabase } from './database/db.js';
+import { getDataByQueryParams } from './utils/getDataByQueryParams.js';
 import { sendJSONResponse } from './utils/sendJSONResponse.js';
 
 const PORT = 8000;
 const rawData = await getDataFromDatabase();
 
 const server = http.createServer((req, res) => {
+  const urlObj = new URL(req.url, `http://${req.headers.host}`);
+  // console.log(urlObj);
+
+  const queryParam = Object.fromEntries(urlObj.searchParams);
+  // console.log(queryParam);
+
   //---> Root Route
   if (req.url === '/' && req.method === 'GET') {
     sendJSONResponse(res, 200, rawData);
   }
+
+  // ---> Query Param Route
+  else if (urlObj.pathname === '/api' && req.method === 'GET') {
+    const queryFilteredData = getDataByQueryParams(rawData, queryParam);
+
+    sendJSONResponse(res, 200, queryFilteredData);
+  }
+
   //---> Continent Route
   else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
     const continentName = req.url.split('/').pop();
