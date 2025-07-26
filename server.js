@@ -1,11 +1,11 @@
 import http from 'node:http';
 
-import { getDataFromDatabase } from './database/db.js';
+import { getData } from './utils/getData.js';
 import { getDataByQueryParams } from './utils/getDataByQueryParams.js';
 import { sendJSONResponse } from './utils/sendJSONResponse.js';
 
 const PORT = 8000;
-const rawData = await getDataFromDatabase();
+const rawData = await getData();
 
 const server = http.createServer((req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host}`);
